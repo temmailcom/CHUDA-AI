@@ -1,8 +1,8 @@
 module.exports = {
     config: {
-        name: "høpéléss mâhî",
+        name: "redwan",
         version: "1.0",
-        author: "MAHI", //** original author fb I'd : https://m.me/MR.AYAN.2X **//
+        author: "xemonbae", //** original author fb I'd : https://m.me/MR.AYAN.2X **//
         countDown: 5,
         role: 0,
         shortDescription: "No Prefix",
@@ -15,6 +15,6 @@ onChat: async function({
     message,
     getLang
 }) {
-    if (event.body && event.body.toLowerCase() == "høpéléss mâhî") return message.reply("ALMIGHTY LORD YHWACH IS BUSY PLEASE WAIT 👑");
+    if (event.body && event.body.toLowerCase() == "redwan") return message.reply("ALMIGHTY LORD YHWACH IS BUSY PLEASE WAIT 👑");
 }
 }; 
