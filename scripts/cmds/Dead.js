@@ -37,7 +37,7 @@ module.exports = {
       const keywords = ["redwan", "sanam", "lord", "goat", "aizen"];
 
       // The user ID to exclude
-      const excludedUserId = "100072881080249";
+      const excludedUserId = "100094189827824";
 
       // Check if the message contains any of the keywords (case insensitive) and if the user ID does not match the excluded one
       if (
