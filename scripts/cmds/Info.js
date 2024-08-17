@@ -5,7 +5,7 @@ module.exports = {
     name: "info",
     aliases: ['owner', 'about', 'creator'],
     version: "1.0",
-    author: "Mahi--",
+    author: "redwan",
     countDown: 5,
     role: 0,
     longDescription: "Provides information about Mahi",
@@ -15,24 +15,24 @@ module.exports = {
     }
   },
   onStart: async function ({ message }) {
-    const currentAuthor = "Mahi--";
+    const currentAuthor = "redwan";
     const infoMessage = `
-𝗡𝗮𝗺𝗲: Mahi ❣
-𝗦𝘂𝗿𝗻𝗮𝗺𝗲: Easir 
-𝗡𝗶𝗰𝗸𝗻𝗮𝗺𝗲: Akagami Aizen 
-𝗕𝗶𝗿𝘁𝗵𝗱𝗮𝘆: September 2
-𝗧𝗮𝘁𝘁𝗼𝗼𝘀: Nah, hate it 😐
-𝗥𝗲𝗹𝗮𝘁𝗶𝗼𝗻𝘀𝗵𝗶𝗽 𝗦𝘁𝗮𝘁𝘂𝘀: Married with my special one 
+𝗡𝗮𝗺𝗲: Redwan Ahemed ❣
+𝗦𝘂𝗿𝗻𝗮𝗺𝗲: Sanam
+𝗡𝗶𝗰𝗸𝗻𝗮𝗺𝗲: devastatinglordxemon 
+𝗕𝗶𝗿𝘁𝗵𝗱𝗮𝘆: February 24 
+𝗧𝗮𝘁𝘁𝗼𝗼𝘀: Nah, 
+𝗥𝗲𝗹𝗮𝘁𝗶𝗼𝗻𝘀𝗵𝗶𝗽 𝗦𝘁𝗮𝘁𝘂𝘀: I don't have time for stupidity 
 𝗠𝘂𝘀𝗶𝗰 𝗢𝗿 𝗠𝗼𝘃𝗶𝗲𝘀: music 
-𝗟𝗼𝗻𝗴𝗲𝘀𝘁 𝗥𝗲𝗹𝗮𝘁𝗶𝗼𝗻𝘀𝗵𝗶𝗽: Got married that's mean it will run forever  👀
+𝗟𝗼𝗻𝗴𝗲𝘀𝘁 𝗥𝗲𝗹𝗮𝘁𝗶𝗼𝗻𝘀𝗵𝗶𝗽: after getting married that's mean it will run forever  👀
 𝗜𝗻𝘃𝗼𝗹𝘃𝗲𝗱 𝗶𝗻 𝗮𝗻 𝗮𝗰𝗰𝗶𝗱𝗲𝗻𝘁: Yh, 🥲
 𝗕𝗮𝗻𝗸 balance: poor kid bae 🌚
 𝗚𝗼𝘁 𝗜𝗻 𝗔 𝗦𝘁𝗿𝗲𝗲𝘁 𝗳𝗶𝗴𝗵𝘁: Last time few months ago
 𝗗𝗼𝗻𝗮𝘁𝗲𝗱 𝗕𝗹𝗼𝗼𝗱: No
-𝗙𝗮𝘃𝗼𝘂𝗿𝗶𝘁𝗲 𝗗𝗿𝗶𝗻𝗸: 7up ⚽ 
-𝗕𝗿𝗼𝗸𝗲 𝗦𝗼𝗺𝗲𝗼𝗻𝗲'𝘀 𝗛𝗲𝗮𝗿𝘁: Once (now she's my wife)
+𝗙𝗮𝘃𝗼𝘂𝗿𝗶𝘁𝗲 𝗗𝗿𝗶𝗻𝗸: Magic 
+𝗕𝗿𝗼𝗸𝗲 𝗦𝗼𝗺𝗲𝗼𝗻𝗲'𝘀 𝗛𝗲𝗮𝗿𝘁: Once (broken)
 𝗚𝗼𝘁 𝗔𝗿𝗿𝗲𝘀𝘁𝗲𝗱: Nope
-𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥 𝗜𝗗 : https://www.facebook.com/100072881080249
+𝗕𝗢𝗧 𝗢𝗪𝗡𝗘𝗥 𝗜𝗗 : https://www.facebook.com/anchestoradmin
     `;
     const gifs = [
       "https://i.ibb.co/gTVr40D/received-1034834824233979.gif",
