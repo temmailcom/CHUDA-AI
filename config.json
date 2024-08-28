@@ -1,7 +1,7 @@
 {
   "facebookAccount": {
-    "email": "dowil90612@bsomek.com",
-    "password": "Redwan Ahemed2009",
+    "email": "easiriqbalmahi6244@gmail.com",
+    "password": "loveyou3000",
     "2FASecret": "",
     "i_user": "",
     "proxy": null,
@@ -17,22 +17,22 @@
     "ignoreCommand": []
   },
   "adminBot": [
-    "100081894480123", "100094189827824"],
+    "100066839859875"],
   "whiteListMode": {
     "enable": false,
-    "whiteListIds": ["100081894480123","100094189827824"],
+    "whiteListIds": [""],
     "notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
   },
-  "nickNameBot": " 𝘼𝙣𝙘𝙚𝙨𝙩𝙤𝙧𝙨 𝘼𝙞  ",
-  "prefix": "-",
+  "nickNameBot": "𝐇𝐈 𝐍𝐀 𝐓𝐀 ❤️🪽",
+  "prefix": ".",
   "database": {
     "type": "mongodb",
     "uriMongodb": "mongodb+srv://jonnysins:HIMU1585@got.zius7zf.mongodb.net/?retryWrites=true&w=majority&appName=GOT",
-    "autoSyncWhenStart": false,
+    "autoSyncWhenStart": true,
     "autoRefreshThreadInfoFirstTime": true,
     "notes": "(1) type selects 'json' or 'sqlite' or 'mongodb'. If you choose mongodb, enter uri connect mongodb in the uriMongodb section, instructions to get uri connect mongodb at: https://youtu.be/z1f9urHW5xY. I recommend using 'mongodb' or 'sqlite', json is not recommended because it is not stable. (2) when you set autoSyncWhenStart to true, the bot will automatically synchronize the data in the database when starting the bot, this will make the bot start slower. (3) when you set autoRefreshThreadInfoFirstTime to true, the bot will automatically refresh the thread information when get first message from the thread since starting the bot"
   },
-  "timeZone": "Asia/Bangladesh",
+  "timeZone": "Asia/Kathmandu",
   "credentials": {
     "gmailAccount": {
       "email": "xemonbae@gmail.com",
@@ -130,7 +130,7 @@
     "updatePresence": true,
     "listenTyping": true,
     "logLevel": "error",
-    "selfListen": false,
+    "selfListen": true,
     "selfListenEvent": true,
     "autoMarkDelivery": false,
     "autoReconnect": true,
