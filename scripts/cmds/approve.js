@@ -1,164 +1,116 @@
-const fs = require("fs");
+.cmd install approve.js const fs = require("fs-extra");
 const path = require("path");
 
 module.exports = {
   config: {
-    name: "pendingApproval",
-    aliases: ["approve"],
-    version: "3.0",
-    author: "ChatGPT",
-    countDown: 5,
-    role: 1,
-    shortDescription: "Manage pending group approvals with advanced options.",
-    longDescription: "Advanced management of pending group join requests with automatic approval/rejection, custom notifications, and more.",
+    name: "approve",
+    version: "1.1",
+    author: "YourName",
+    role: 2, // Admin role or higher
+    description: "Approve or reject groups for bot functionality, and view the list of pending groups.",
     category: "admin",
-    guide: "{pn} approve <accept|reject|select|auto> [userIDs|filters] - Manage pending approvals with advanced features."
+    guide: "{pn} [approve|reject|list] <groupID> <reason>\nExample: {pn} approve 1234567890 For bot access.\n{pn} list - View all groups pending approval."
   },
 
-  onStart: async function ({ api, event, args }) {
-    const action = args[0];
-    const threadID = event.threadID;
+  onStart: async function ({ api, args, event, threadsData, role }) {
+    if (role < 2) { // Only bot admins can use this command
+      return api.sendMessage({
+        body: "❌ | Only admins can use this command.",
+      }, event.threadID);
+    }
+
+    const action = args[0] ? args[0].toLowerCase() : 'list';
+
+    if (action === 'list') {
+      return listPendingGroups(api, event.threadID, threadsData);
+    }
+
+    if (args.length < 2) {
+      return api.sendMessage({
+        body: "❌ | Missing arguments. Usage: {pn} [approve|reject] <groupID> <reason>\nExample: {pn} approve 1234567890 For bot access.",
+      }, event.threadID);
+    }
+
+    const groupID = args[1];
+    const reason = args.slice(2).join(" ") || "No reason provided";
+
+    if (action !== "approve" && action !== "reject") {
+      return api.sendMessage({
+        body: "❌ | Invalid action. Use `approve`, `reject`, or `list`.\nExample: {pn} approve 1234567890 For bot access.",
+      }, event.threadID);
+    }
 
     try {
-      // Retrieve thread information to get pending approvals
-      const threadInfo = await api.getThreadInfo(threadID);
-      const pendingUsers = threadInfo.approvalRequests;
-
-      if (!pendingUsers || pendingUsers.length === 0) {
-        return api.sendMessage("There are no pending approvals.", threadID);
+      // Ensure log directory exists
+      const logDir = path.join(__dirname, 'logs');
+      if (!fs.existsSync(logDir)) {
+        fs.mkdirSync(logDir);
       }
 
-      // Automatic Approval/Reject Logic
-      if (action === "auto") {
-        const criteria = args[1]; // e.g., "keyword", "no-pic", etc.
-        const approved = [];
-        const rejected = [];
+      // Log command usage
+      logCommandUsage(event.senderID, action, groupID, reason);
 
-        for (const user of pendingUsers) {
-          if (meetsCriteria(user, criteria)) {
-            await api.approveJoinRequest(threadID, user.userID);
-            approved.push(user.name);
-            sendCustomMessage(api, threadID, user.userID, "approved");
-          } else {
-            await api.removeUserFromGroup(user.userID, threadID);
-            rejected.push(user.name);
-            sendCustomMessage(api, threadID, user.userID, "rejected");
-          }
-        }
-
-        return api.sendMessage(`Auto-approval completed.\n\nApproved: ${approved.join(", ")}\nRejected: ${rejected.join(", ")}`, threadID);
-      }
-
-      // Selective Approval/Reject
-      if (action === "select") {
-        const userIDs = args.slice(1);
-        if (userIDs.length === 0) {
-          return api.sendMessage("Please provide the user IDs to approve/reject.", threadID);
-        }
-
-        const confirmMessage = `Are you sure you want to ${args[1]} the following users?\n\n${userIDs.join(", ")}`;
-        return api.sendMessage(confirmMessage, threadID, (error, info) => {
-          global.GoatBot.onReply.set(info.messageID, {
-            commandName: this.config.name,
-            type: 'select',
-            userIDs,
-            action: args[1]
-          });
-        });
-      }
-
-      // Bulk Approvals/Rejects with Filters
-      if (action === "bulk") {
-        const filter = args[1]; // e.g., "has-pic", "keyword", etc.
-        const actionType = args[2]; // "approve" or "reject"
-        const filteredUsers = filterUsers(pendingUsers, filter);
-        const userIDs = filteredUsers.map(user => user.userID);
-
-        return performBulkAction(api, threadID, userIDs, actionType);
+      // Save approval status
+      if (action === "approve") {
+        await threadsData.set(groupID, true, "approved");
+        return api.sendMessage({
+          body: `✅ | Group ${groupID} has been approved.\nReason: ${reason}`,
+        }, event.threadID);
+      } else if (action === "reject") {
+        await threadsData.set(groupID, false, "approved");
+        return api.sendMessage({
+          body: `❌ | Group ${groupID} has been rejected.\nReason: ${reason}`,
+        }, event.threadID);
       }
 
     } catch (error) {
-      console.error(`Failed to execute command: ${error.message}`);
-      api.sendMessage(`❌ | An error occurred: ${error.message}`, threadID);
+      console.error("Error:", error);
+      api.sendMessage({
+        body: "❌ | An error occurred. Please try again later.\nError details: " + error.message,
+      }, event.threadID);
     }
   },
 
-  onReply: async function ({ api, event, Reply }) {
-    const { type, userIDs, action } = Reply;
-    const threadID = event.threadID;
+  onChat: async function ({ event, api, threadsData, role }) {
+    const isApproved = await threadsData.get(event.threadID, "approved");
 
-    if (type === "select") {
-      try {
-        const approved = [];
-        const rejected = [];
-
-        for (const userID of userIDs) {
-          if (action === "approve") {
-            await api.approveJoinRequest(threadID, userID);
-            approved.push(userID);
-            sendCustomMessage(api, threadID, userID, "approved");
-          } else if (action === "reject") {
-            await api.removeUserFromGroup(userID, threadID);
-            rejected.push(userID);
-            sendCustomMessage(api, threadID, userID, "rejected");
-          }
-        }
-
-        return api.sendMessage(`Selected action completed.\n\nApproved: ${approved.join(", ")}\nRejected: ${rejected.join(", ")}`, threadID);
-      } catch (error) {
-        console.error(`Failed to execute action: ${error.message}`);
-        api.sendMessage(`❌ | An error occurred: ${error.message}`, threadID);
+    if (event.isGroup) {
+      if (role < 2 && isApproved === false) {
+        // Optionally, send a message or react when bot is added to an unapproved group
+        return api.sendMessage({
+          body: "❌ | This bot is not approved to operate in this group. Please contact an admin to approve the group.",
+        }, event.threadID);
       }
     }
   }
 };
 
-// Helper Functions
-
-function meetsCriteria(user, criteria) {
-  // Define your criteria logic here
-  if (criteria === "no-pic") {
-    return !user.profilePic;
-  }
-  if (criteria === "keyword") {
-    return user.name.toLowerCase().includes("specific-keyword");
-  }
-  return false;
-}
-
-function filterUsers(users, filter) {
-  // Implement your filter logic here
-  return users.filter(user => {
-    if (filter === "has-pic") {
-      return !!user.profilePic;
-    }
-    if (filter === "keyword") {
-      return user.name.toLowerCase().includes("specific-keyword");
-    }
-    return false;
-  });
-}
-
-async function performBulkAction(api, threadID, userIDs, actionType) {
-  const approved = [];
-  const rejected = [];
-
-  for (const userID of userIDs) {
-    if (actionType === "approve") {
-      await api.approveJoinRequest(threadID, userID);
-      approved.push(userID);
-      sendCustomMessage(api, threadID, userID, "approved");
-    } else if (actionType === "reject") {
-      await api.removeUserFromGroup(userID, threadID);
-      rejected.push(userID);
-      sendCustomMessage(api, threadID, userID, "rejected");
-    }
+// Function to log command usage
+function logCommandUsage(userID, action, groupID, reason) {
+  const logDir = path.join(__dirname, 'logs');
+  if (!fs.existsSync(logDir)) {
+    fs.mkdirSync(logDir);
   }
 
-  return api.sendMessage(`Bulk action completed.\n\nApproved: ${approved.join(", ")}\nRejected: ${rejected.join(", ")}`, threadID);
+  const logMessage = `User ${userID} issued ${action} command on group ${groupID} with reason: ${reason}`;
+  fs.appendFileSync(path.join(logDir, 'commandUsage.log'), `${new Date().toISOString()} - ${logMessage}\n`);
 }
 
-function sendCustomMessage(api, threadID, userID, status) {
-  const message = status === "approved" ? "Welcome to the group!" : "Sorry, your join request was rejected.";
-  api.sendMessage({ body: message }, threadID);
+// Function to list pending groups
+async function listPendingGroups(api, threadID, threadsData) {
+  const allThreads = await threadsData.all("approved");
+  const pendingGroups = Object.entries(allThreads)
+    .filter(([_, approved]) => approved === false)
+    .map(([groupID]) => groupID);
+
+  if (pendingGroups.length === 0) {
+    return api.sendMessage({
+      body: "✅ | There are no pending groups awaiting approval.",
+    }, threadID);
+  }
+
+  const pendingList = pendingGroups.join("\n");
+  return api.sendMessage({
+    body: `📋 | Pending groups awaiting approval:\n${pendingList}`,
+  }, threadID);
 }
