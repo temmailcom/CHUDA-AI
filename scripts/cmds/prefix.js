@@ -1,6 +1,6 @@
 const fs = require("fs-extra");
 const { utils } = global;
-const UpolUrl = ["https://i.imgur.com/NT6lmm3.gif"];
+const UpolUrl = ["https://imgur.com/tLuobD3.gif"];
 const UpolImage = UpolUrl[Math.floor(Math.random() * UpolUrl.length)];
 
 module.exports = {
@@ -19,7 +19,7 @@ module.exports = {
       confirmThisThread: "Please react to this message to confirm change prefix in your box chat",
       successGlobal: "Changed prefix of system bot to: %1",
       successThisThread: "Changed prefix in your box chat to: %1",
-      myPrefix: " 🗡️ My Bankai is: %2"
+      myPrefix: "👻 𝙿𝚛𝚎𝚏𝚒𝚡 𝚒𝚜: %2"
     }
   },
 
