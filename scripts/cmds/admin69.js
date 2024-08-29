@@ -1,5 +1,5 @@
 module.exports.config = {
-    name: "admin69",
+    name: "owner",
     version: "7.0.0",
     hasPermssion: 0,
     credits: "User",
@@ -8,6 +8,10 @@ module.exports.config = {
     usages: "",
     cooldowns: 5,
     dependencies: {}
+};
+
+module.exports.onStart = async function({ api, event, Users, global }) {
+    console.log("Owner command is now active and ready to use.");
 };
 
 module.exports.run = async function({ api, event, Users, global, args }) {
