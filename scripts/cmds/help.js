@@ -34,7 +34,7 @@ module.exports = {
       const categories = {};
       let msg = "";
 
-      msg += `╔══════════════╗\n   ✿︎👽| 𝘼𝙣𝙘𝙝𝙚𝙨𝙩𝙤𝙧 𝘼𝙞 ✿︎\n╚══════════════╝`;
+      msg += `╔══════════════╗\n 𝗚𝗛𝗢𝗦𝗧 𝗔𝗜 👻 \n╚══════════════╝`;
 
       for (const [name, value] of commands) {
         if (value.config.role > 1 && role < value.config.role) continue;
@@ -58,13 +58,7 @@ module.exports = {
       msg += `𝙁𝙊𝙍 𝘼𝙉𝙔 𝙊𝙏𝙃𝙀𝙍 𝙄𝙉𝙁𝙊𝙍𝙈𝘼𝙏𝙄𝙊𝙉 𝘾𝙊𝙉𝙏𝙍𝘼𝘾𝙏 𝙊𝙒𝙉𝙀𝙍 𝘽𝙔 𝙏𝙔𝙋𝙄𝙉𝙂 /𝘾𝘼𝙇𝙇𝘼𝘿 𝙃𝙀𝙇𝙋`;
 
       const helpListImages = [
-        "https://i.imgur.com/Cp1SIyE.gif",
-        "https://i.imgur.com/cvrPMOI.gif",
-        "https://i.imgur.com/yj78gww.gif",
-        "https://i.imgur.com/9Ik40eS.gif",
-        "https://i.imgur.com/H5WBFtg.gif",
-        "https://i.imgur.com/DGEs8aj.gif",
-        "https://i.imgur.com/S8Yi7Pj.gif",
+        "https://imgur.com/3aCI4LP.gif",
       ];
 
       const helpListImage = helpListImages[Math.floor(Math.random() * helpListImages.length)];
