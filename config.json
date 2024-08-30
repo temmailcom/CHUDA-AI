@@ -23,7 +23,7 @@
     "whiteListIds": [""],
     "notes": "if you enable this feature, only the ids in the whiteListIds section can use the bot"
   },
-  "nickNameBot": "𝐇𝐈 𝐍𝐀 𝐓𝐀 ❤️🪽",
+  "nickNameBot": "𝗚𝗛𝗢𝗦𝗧 𝗔𝗜 👻",
   "prefix": ".",
   "database": {
     "type": "mongodb",
